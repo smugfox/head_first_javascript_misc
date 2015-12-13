@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Image Guess</title>
+  <style>
+  body {
+    margin: 20px;
+  }
+  img {
+    margin: 20px;
+  }
+  </style>
+  <script>
+
+  /* 1.  Access the image object in the DOM and
+  assign a handler to its onclick property. */
+
+  /* 2.  In your handler, write the code to change the
+    image src attribute from the blurred image to
+    the unblurred one. */
+
+  // window.onload = init;
+  //
+  // function init() {
+  //   // Here we’re grabbing a reference to the image element and assigning it to the image variable.
+  //   var image = document.getElementById('zero');
+  //   //  Using the image object from the DOM, We're assigning a handler to its onclick propery.
+  //   image.onclick = showAnswer;
+  // }
+  //
+  // function showAnswer() {
+  //   // First, we have to get the image from the DOM again
+  //   var image = document.getElementById('zero');
+  //   // Once we have the image, we can change it by setting its src property to the unblurred image.
+  //   image.src = "img/zero.jpg";
+  // }
+
+
+
+  window.onload = init;
+
+  function init() {
+
+    /* Now we’re getting elements from
+    the page using a tag name, img. This
+    finds every image in the page and
+    returns them all. We store the resulting
+    images in the images variable. */
+    var images = document.getElementsByTagName("img");
+
+    /* Then we iterate over the images,
+      and assign the showAnswer click
+      handler to each image in turn. Now
+      the onclick property of each image
+      is set to the showAnswer handler. */
+    for(var i = 0; i < images.length; i++) {
+       images[i].onclick = showAnswer;
+
+    }
+  };
+
+  function showAnswer(eventObj) {
+    //The target tells us what element generated the event.
+    image = eventObj.target;
+
+    /* We can then use the id property of that object
+       to get the name of the unblurred image */
+    var name = image.id;
+
+    name = 'img/' + name + ".jpg";
+
+    /* And finally, we’ll set the src
+       of the image to that name */
+    image.src = name;
+
+    /* We'll use reblur (below) as our
+       handler, and pass it 2000
+       milliseconds (two seconds) and also
+       an argument, the image to reblur. */
+    setTimeout(reblur, 2000, image);
+  }
+
+
+  //################################################
+  //############### OLD VERSION ####################
+  //################################################
+  // Now when this handler is called, it will be passed the image
+   function reblur(image) {
+
+     var name = image.id;
+
+     // one + blur.jpg = img/oneblur.jpg
+     name = 'img/' + name + 'blur.jpg';
+
+     image.src = name;
+
+    /* The handler can take the image, get
+       the id of the image, and use that to
+       create the name of the blurred image.
+       When we set the src of the image to
+       that name, it will replace the clear
+       image with the blurred image. */
+   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </script>
+</head>
+<body>
+<img src="img/zeroblur.jpg" alt="" id="zero">
+<img src="img/oneblur.jpg" alt="" id="one">
+<img src="img/twoblur.jpg" alt="" id="two">
+<img src="img/threeblur.jpg" alt="" id="three">
+<img src="img/fourblur.jpg" alt="" id="four">
+<img src="img/fiveblur.jpg" alt="" id="five">
+</body>
+</html>

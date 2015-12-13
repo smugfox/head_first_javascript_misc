@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Flight</title>
+  <script>
+
+  window.onload = init;
+    function init() {
+      var passengers = [{name: "Jane Doloop", paid: true, ticket: "coach"},
+                        {name: "Dr. Evel", paid: true, ticket: "firstclass"},
+                        {name: "Sue Property", paid: false, ticket: "firstclass"},
+                        {name: "John Funcall", paid: true, ticket: "premium"}];
+
+      /* The function processPassengers has two
+         parameters. The first is an array of passengers */
+      /* And the second is a function that knows how to look
+         for some condition in the passengers */
+      function processPassengers(passengers, testFunction) {
+
+        // We iterate through all the passengers, one at a time.
+        for (var i=0; i < passengers.length; i++) {
+
+          // And then we call the function on each passenger
+          if(testFunction(passengers[i])) {
+
+            /* If the result of the function is true, then we return
+               false. In other words, if the passenger failed the test
+               (e.g. they haven’t paid, or they are on the no-fly list),
+               then we don’t want the plane to take off! */
+            return false;
+          }
+        }
+
+        /* Otherwise, if we get here then all passengers passed the test and we
+           return true */
+        return true;
+      };
+
+      /* Pay attention: this is one passenger (an object) not
+         the array of passengers (an array of objects) */
+      function checkNoFlyList(passenger) {
+
+        /* Here’s the function to check to see if a
+           passenger is on the no-fly list. Our no-fly
+           list is simple: everyone except Dr. Evel can
+           fly. We return true if the passenger is Dr.
+           Evel; otherwise, we return false (that is, the
+           passenger is not on the no-fly */
+        return (passenger.name === "Dr. Evel");
+      }
+
+      function checkNotPaid(passenger) {
+
+        /* And here’s the function to check to see if a
+           passenger has paid. All we do is check the paid
+           property of the passenger. If they have not
+           paid, then we return true. */
+        return (!passenger.paid);
+      }
+
+      function printPassenger(passenger) {
+        var message = passenger.name;
+
+        if (passenger.paid === true) {
+          message = message + " has paid";
+        } else {
+          message = message + " has not paid";
+        }
+        console.log(message);
+        return false;
+      }
+
+      function createDrinkOrder(passenger) {
+        var orderFunction;
+        if (passenger.ticket === "firstclass") {
+          orderFunction = function() {
+            alert("Would you like a cocktail or wine?");
+          };
+        } else if (passenger.ticket === "premium"){
+          orderFunction = function() {
+            alert("Would you like wine, cola, or water?");
+          };
+        } else {
+          orderFunction = function() {
+            alert("Your choice is cola or water");
+          };
+        }
+        return orderFunction;
+      }
+
+      function createDinnerOrder(passenger) {
+        var orderFunction;
+        if(passenger.ticket === 'firstclass') {
+          orderFunction = function() {
+            alert("Would you like chicken or pasta?");
+          };
+        } else if (passenger.ticket === 'premium') {
+          orderFunction = function() {
+            alert("Would you like a snack box or cheese plate?");
+          };
+        } else {
+          orderFunction = function() {
+            alert("Would you like peanuts or pretzels?");
+          };
+        }
+        return orderFunction;
+      }
+
+      function serveCustomer(passenger) {
+        var getDrinkOrderFunction = createDrinkOrder(passenger);
+        var getDinnerOrderFunction = createDinnerOrder(passenger);
+        getDrinkOrderFunction();
+        // get dinner order
+        getDinnerOrderFunction();
+
+        getDrinkOrderFunction();
+        getDrinkOrderFunction();
+        // show movie
+        getDrinkOrderFunction();
+        // pick up trash
+      }
+
+
+      function servePassengers(passengers) {
+        for(var i = 0; i < passengers.length; i++) {
+          serveCustomer(passengers[i]);
+        }
+      }
+
+      servePassengers(passengers);
+
+      /* Here, we’re passing the checkNoFlyList
+         function. So processPassengers will
+         check each passenger to see if they are
+         on the no-fly list. */
+      var allCanFly = processPassengers(passengers, checkNoFlyList);
+        if (!allCanFly) {
+          document.getElementById('fly').innerHTML = "The Plane can't take off: we have a passenger on the no-fly list<br>";
+        }
+      var allPaid = processPassengers(passengers, checkNotPaid);
+        if (!allPaid) {
+          document.getElementById('paid').innerHTML = "The plane can't take off: not everyone has paid";
+        }
+      var allName = processPassengers(passengers, printPassenger);
+        if(!allName) {
+          document.getElementById('name').innerHTML = "The plane can't take off: not everyone has paid";
+        }
+    }
+
+  </script>
+</head>
+<body>
+<p id="fly"></p>
+<p id="paid"></p>
+<p id="name"></p>
+</body>
+</html>
